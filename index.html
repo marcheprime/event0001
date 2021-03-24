@@ -1,1 +1,139 @@
+<script src="https://marcheprime.github.io/lib/js/aframe.min.js"></script>
+<script src="https://marcheprime.github.io/lib/js/aframe-ar.js"></script>
 
+<body style='margin : 0px; overflow: hidden;'>
+  <script>
+    var markerVisible = { "obj1": false, "obj2": false, "obj3": false };
+    var markertrouve = { "obj1": false, "obj2": false, "obj3": false };
+    var jeufini = false;
+
+    AFRAME.registerComponent('registerevents', {
+        init: function () 
+        {
+            let marker = this.el;
+            var entity = document.querySelector('#s1');
+            var entity2 = document.querySelector('#s2');
+			var entity3 = document.querySelector('#s3');
+          
+            var mark1 = document.querySelector('#box1');
+          
+            var mark2 = document.querySelector('#box2');
+            var mark2fond = document.querySelector('#obj2fondtri');
+            var mark2txt = document.querySelector('#obj2txttri');
+            
+            var mark3 = document.querySelector('#box3');
+            var mark3fond = document.querySelector('#obj3fondtri');
+            var mark3txt = document.querySelector('#obj3txttri');
+			
+            marker.addEventListener('markerFound', function() {
+                markerVisible[ marker.id ] = true;
+                //console.log( markerVisible );
+                //console.log('DEBUG markertrouve obj1:' + markertrouve['obj1'] + ' | obj2:' + markertrouve['obj2']);
+                
+				//premier objet:
+                if( markerVisible['obj1'] == true && markertrouve['obj1'] == false && markertrouve['obj2'] == false && markertrouve['obj3'] == false){
+                  mark1.setAttribute('visible',true);
+				  
+                  mark2.setAttribute('visible',true);
+                  mark2fond.setAttribute('visible',false);
+                  mark2txt.setAttribute('visible',false);
+				  
+                  entity.components.sound.playSound();
+				  
+                  markertrouve['obj1'] = true;
+                }
+				
+				//deuxieme objet:
+				if( markerVisible['obj2'] == true && markertrouve['obj1'] == true && markertrouve['obj2'] == false && markertrouve['obj3'] == false){
+				  
+                  mark3.setAttribute('visible',true);
+                  mark3fond.setAttribute('visible',false);
+                  mark3txt.setAttribute('visible',false);
+				  
+                  entity.components.sound.playSound();
+				  
+                  markertrouve['obj2'] = true;
+                }
+				
+				//troisieme objet:
+				if( markerVisible['obj3'] == true && markertrouve['obj1'] == true && markertrouve['obj2'] == true && markertrouve['obj3'] == false){
+				  
+                  entity2.components.sound.playSound();
+				  
+                  markertrouve['obj3'] = true;
+                }
+                
+				////////////////////////////////////////////////
+				//ERREURS:
+                if( markerVisible['obj2'] == true && markertrouve['obj1'] == false && markertrouve['obj2'] == false && markertrouve['obj3'] == false){
+                  entity3.components.sound.playSound();
+                }
+				
+                if( markerVisible['obj3'] == true && markertrouve['obj1'] == false && markertrouve['obj2'] == false && markertrouve['obj3'] == false){
+                  entity3.components.sound.playSound();
+                }
+				////
+                if( markerVisible['obj3'] == true && markertrouve['obj1'] == true && markertrouve['obj2'] == false && markertrouve['obj3'] == false){
+                  entity3.components.sound.playSound();
+				  markertrouve['obj1'] = false;
+				  markertrouve['obj2'] = false;
+				  markertrouve['obj3'] = false;
+				  mark1.setAttribute('visible',false);
+				  
+                  mark2.setAttribute('visible',false);
+                  mark2fond.setAttribute('visible',true);
+                  mark2txt.setAttribute('visible',true);
+                }
+                
+				/////////////////////////////////////////////////////////////////////
+				//JEU TERMINE:
+                if( markertrouve['obj1'] && markertrouve['obj2'] && markertrouve['obj3'] && jeufini == false){
+                  //entity2.components.sound.playSound();
+                  jeufini = true;
+                  console.log('[JEU TERMINE !!!]');
+                }
+                
+            });
+
+            marker.addEventListener('markerLost', function() {
+                markerVisible[ marker.id ] = false;
+                //console.log( markerVisible );
+            });
+        }
+    });
+    
+    </script>
+  
+	<a-scene embedded vr-mode-ui="enabled: false;" arjs="debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+    <a-assets>
+      <a-asset-item id="sound" src="https://marcheprime.github.io/lib/assets/victoire01.wav" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="sound2" src="https://marcheprime.github.io/lib/assets/victoire02.wav" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="sound3" src="https://marcheprime.github.io/lib/assets/mauvais2.wav" response-type="arraybuffer"></a-asset-item>
+    </a-assets>
+
+		<a-marker id='obj1' preset='hiro' registerevents>
+			<a-box id='box1' position='1 1 0' material='opacity: 0.5;' visible='false'></a-box>
+		</a-marker>
+    
+		<a-marker id='obj2' type="pattern" url="https://marcheprime.github.io/lib/data/kanji.patt" registerevents>      
+		  <a-plane id='obj2fondtri' color="white" rotation="-90 0 0" position="0 -0.25 0" width="4" material="transparent: true; opacity: 0.90" visible='true'></a-plane>
+		  <a-text id='obj2txttri' value="Mauvaise Combinaison\n Recommence depuis\n le premier Objet !" font="https://marcheprime.github.io/lib/fonts/Exo2Bold.fnt" color="red" rotation="-90 0 0" align="center" scale="1 1 1" visible='true'></a-text>
+		  
+		  <a-box id='box2' position="1 1 0" material="color: red; transparent: true; opacity: 0.5;" visible='false'></a-box>
+		</a-marker>
+		
+		<a-marker id='obj3' type="pattern" url="https://marcheprime.github.io/lib/data/letterA.patt" registerevents>      
+		  <a-plane id='obj3fondtri' color="white" rotation="-90 0 0" position="0 -0.25 0" width="4" material="transparent: true; opacity: 0.90" visible='true'></a-plane>
+		  <a-text id='obj3txttri' value="Mauvaise Combinaison\n Recommence depuis\n le premier Objet !" font="https://marcheprime.github.io/lib/fonts/Exo2Bold.fnt" color="red" rotation="-90 0 0" align="center" scale="1 1 1" visible='true'></a-text>
+		  
+		  <a-box id='box3' position="1 1 0" material="color: red; transparent: true; opacity: 0.5;" visible='false'></a-box>
+		</a-marker>
+		
+    <a-entity id='s1' sound="src: #sound; poolSize: 1;" autoplay="false"></a-entity>
+    <a-entity id='s2' sound="src: #sound2; poolSize: 1;" autoplay="false"></a-entity>
+	<a-entity id='s3' sound="src: #sound3; poolSize: 1;" autoplay="false"></a-entity>
+
+		<a-entity camera></a-entity>
+
+	</a-scene>  
+</body>
