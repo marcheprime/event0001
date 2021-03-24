@@ -3,21 +3,52 @@
 <head>
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 </head>
-<script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
-<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+<script src="https://marcheprime.github.io/lib/js/aframe.min.js"></script>
+<script src="https://marcheprime.github.io/lib/js/aframe-ar.js"></script>
 </head>
 <body style='margin : 0px; overflow: hidden;'>
-
-<a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix;  matrixCodeType: 4x4_BCH_13_9_3;'>
+<script>
+    AFRAME.registerComponent("markerhandler", {
+        init: function () {
+            const animatedMarker = document.querySelector("#animated-marker");
+            var toggle= false;
+            var cvert = false;
+            var vert = 'color: green;  opacity:0.7; side: double';
+            var rouge = 'color: red;  opacity:0.7; side: double';
+            animatedMarker.addEventListener('click', function (ev, target) {
+                console.log('[Clique sur Bouton]')
+                toggle=!toggle;
+                cvert=!cvert;
+                console.log(toggle)
+                const element = document.querySelector("#show-hide-entity");
+                element.setAttribute('visible',toggle);
+                if(cvert == true){
+                  animatedMarker.setAttribute('material',vert);
+                }
+                if(cvert == false){
+                  animatedMarker.setAttribute('material',rouge);
+                }
+            })
+        }
+    })
+</script>
+<a-scene embedded vr-mode-ui="enabled: false;" arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix;  matrixCodeType: 4x4_BCH_13_9_3;'>
     <a-marker preset='hiro' emitevents="true" markerhandler>
         <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable; useWorldCoordinates: true;"></a-entity>
         <a-entity geometry="primitive: plane; width: 1; height: 1"
                   material="color: red;  opacity:0.7; side: double"
-                  text="value: Clique ici\n pour continuer; align: center; wrapCount: 15"
+                  text="value: Clique ici; align: center; wrapCount: 15"
                   position="0 0 0"
                   rotation="-90 0 0" class="clickable"
-                  id="animated-marker" link="on: click; href: https://marcheprime.github.io/testar/testar/index.html">
-	</a-entity>
+                  id="animated-marker"></a-entity>
+        <a-entity geometry="primitive: plane; width: 1; height: 1"
+                  material="color: blue;  opacity:0.7; side: double"
+                  text="value: Continuer !!; align: center; wrapCount: 15"
+                  position="1 0 0"
+                  rotation="-90 0 0"
+	  class="clickable"
+	  link="on: click; href: https://marcheprime.github.io/testar/testar/index.html"
+                  id="show-hide-entity" visible="false"></a-entity>
     </a-marker>
     <a-entity camera></a-entity>
 </a-scene>
