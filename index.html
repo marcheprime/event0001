@@ -3,29 +3,45 @@
 
 <body style='margin : 0px; overflow: hidden;'>
   <script>
-    var markerVisible = { "obj1": false };
-    var markertrouve = { "obj1": false };
+    var markerVisible = { "obj1": false, "obj2": false };
+    var markertrouve = { "obj1": false, "obj2": false };
     var jeufini = false;
 
     AFRAME.registerComponent('registerevents', {
         init: function () 
         {
             let marker = this.el;
-            var entity = document.querySelector('#s2');
+            var entity = document.querySelector('#s1');
+            var entity2 = document.querySelector('#s2');
           
             var mark1 = document.querySelector('#box1');
+          
+            var mark2 = document.querySelector('#box2');
             
             marker.addEventListener('markerFound', function() {
                 markerVisible[ marker.id ] = true;
                 //console.log( markerVisible );
                 //console.log('DEBUG markertrouve obj1:' + markertrouve['obj1'] + ' | obj2:' + markertrouve['obj2']);
                 
-                if( markerVisible['obj1'] == true && markertrouve['obj1'] == false ){
+                if( markerVisible['obj1'] == true && markertrouve['obj1'] == false && markertrouve['obj2'] == false){
                   entity.components.sound.playSound();
                   markertrouve['obj1'] = true;
+                }                
+                if( markerVisible['obj1'] == true && markertrouve['obj1'] == false && markertrouve['obj2'] == true){
+                  entity2.components.sound.playSound();
+                  markertrouve['obj1'] = true;
+                }
+              
+                if( markerVisible['obj2'] == true && markertrouve['obj2'] == false && markertrouve['obj1'] == false){
+                  entity.components.sound.playSound();
+                  markertrouve['obj2'] = true;
+                }
+                if( markerVisible['obj2'] == true && markertrouve['obj2'] == false && markertrouve['obj1'] == true){
+                  entity2.components.sound.playSound();
+                  markertrouve['obj2'] = true;
                 }
                 
-                if( markertrouve['obj1'] && jeufini == false){
+                if( markertrouve['obj1'] && markertrouve['obj2'] && jeufini == false){
                   //entity2.components.sound.playSound();
                   jeufini = true;
                   console.log('[JEU TERMINE !!!]');
@@ -44,13 +60,19 @@
   
 	<a-scene embedded vr-mode-ui="enabled: false;" arjs="debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
     <a-assets>
+      <a-asset-item id="sound" src="https://marcheprime.github.io/lib/assets/victoire01.wav" response-type="arraybuffer"></a-asset-item>
       <a-asset-item id="sound2" src="https://marcheprime.github.io/lib/assets/victoire02.wav" response-type="arraybuffer"></a-asset-item>
     </a-assets>
 
 		<a-marker id='obj1' preset='hiro' registerevents>
 			<a-box id='box1' position='1 1 0' material='opacity: 0.5;' visible='true'></a-box>
 		</a-marker>
+    
+    <a-marker id='obj2' type="pattern" url="https://marcheprime.github.io/lib/data/kanji.patt" registerevents>      
+      <a-box id='box2' position="1 1 0" material="color: red; transparent: true; opacity: 0.5;" visible='true'></a-box>
+    </a-marker>
 		
+    <a-entity id='s1' sound="src: #sound; poolSize: 1;" autoplay="false"></a-entity>
     <a-entity id='s2' sound="src: #sound2; poolSize: 1;" autoplay="false"></a-entity>
 
 		<a-entity camera></a-entity>
