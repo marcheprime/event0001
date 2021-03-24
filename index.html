@@ -1,33 +1,59 @@
-<!doctype HTML>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-</head>
 <script src="https://marcheprime.github.io/lib/js/aframe.min.js"></script>
 <script src="https://marcheprime.github.io/lib/js/aframe-ar.js"></script>
-</head>
+
 <body style='margin : 0px; overflow: hidden;'>
-<script>
-    AFRAME.registerComponent("markerhandler", {
-        init: function () {
-            const animatedMarker = document.querySelector("#animated-marker");
-            animatedMarker.addEventListener('click', function (ev, target) {
-                console.log('[Clique sur Bouton]')
-            })
+  <script>
+    var markerVisible = { "obj1": false };
+    var markertrouve = { "obj1": false };
+    var jeufini = false;
+
+    AFRAME.registerComponent('registerevents', {
+        init: function () 
+        {
+            let marker = this.el;
+            var entity = document.querySelector('#s2');
+          
+            var mark1 = document.querySelector('#box1');
+            
+            marker.addEventListener('markerFound', function() {
+                markerVisible[ marker.id ] = true;
+                //console.log( markerVisible );
+                //console.log('DEBUG markertrouve obj1:' + markertrouve['obj1'] + ' | obj2:' + markertrouve['obj2']);
+                
+                if( markerVisible['obj1'] == true && markertrouve['obj1'] == false ){
+                  entity.components.sound.playSound();
+                  markertrouve['obj1'] = true;
+                }
+                
+                if( markertrouve['obj1'] && jeufini == false){
+                  //entity2.components.sound.playSound();
+                  jeufini = true;
+                  console.log('[JEU TERMINE !!!]');
+                }
+                
+            });
+
+            marker.addEventListener('markerLost', function() {
+                markerVisible[ marker.id ] = false;
+                //console.log( markerVisible );
+            });
         }
-    })
-</script>
-<a-scene embedded vr-mode-ui="enabled: false;" arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix;  matrixCodeType: 4x4_BCH_13_9_3;'>
-    <a-marker preset='hiro' emitevents="true" markerhandler>
-        <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable; useWorldCoordinates: true;"></a-entity>
-        <a-entity geometry="primitive: plane; width: 1; height: 1"
-                  material="color: red;  opacity:0.7; side: double"
-                  text="value: Clique ici; align: center; wrapCount: 15"
-                  position="0 0 0"
-                  rotation="-90 0 0" class="clickable"
-                  id="animated-marker" link="on: click; href: https://marcheprime.github.io/testar/testar/index.html"></a-entity>
-    </a-marker>
-    <a-entity camera></a-entity>
-</a-scene>
-</body
-</html>
+    });
+    
+    </script>
+  
+	<a-scene embedded vr-mode-ui="enabled: false;" arjs="debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+    <a-assets>
+      <a-asset-item id="sound2" src="https://marcheprime.github.io/lib/assets/victoire02.wav" response-type="arraybuffer"></a-asset-item>
+    </a-assets>
+
+		<a-marker id='obj1' preset='hiro' registerevents>
+			<a-box id='box1' position='1 1 0' material='opacity: 0.5;' visible='true'></a-box>
+		</a-marker>
+		
+    <a-entity id='s2' sound="src: #sound2; poolSize: 1;" autoplay="false"></a-entity>
+
+		<a-entity camera></a-entity>
+
+	</a-scene>  
+</body>
