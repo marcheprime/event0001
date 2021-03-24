@@ -11,23 +11,8 @@
     AFRAME.registerComponent("markerhandler", {
         init: function () {
             const animatedMarker = document.querySelector("#animated-marker");
-            var toggle= false;
-            var cvert = false;
-            var vert = 'color: green;  opacity:0.7; side: double';
-            var rouge = 'color: red;  opacity:0.7; side: double';
             animatedMarker.addEventListener('click', function (ev, target) {
-                console.log('[Clique sur Bouton]')
-                toggle=!toggle;
-                cvert=!cvert;
-                console.log(toggle)
-                const element = document.querySelector("#show-hide-entity");
-                element.setAttribute('visible',toggle);
-                if(cvert == true){
-                  animatedMarker.setAttribute('material',vert);
-                }
-                if(cvert == false){
-                  animatedMarker.setAttribute('material',rouge);
-                }
+                
             })
         }
     })
@@ -37,17 +22,11 @@
         <a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable; useWorldCoordinates: true;"></a-entity>
         <a-entity geometry="primitive: plane; width: 1; height: 1"
                   material="color: red;  opacity:0.7; side: double"
-                  text="value: Clique ici; align: center; wrapCount: 15"
+                  text="value: Clique ici\n pour continuer; align: center; wrapCount: 15"
                   position="0 0 0"
                   rotation="-90 0 0" class="clickable"
-                  id="animated-marker"></a-entity>
-        <a-entity geometry="primitive: plane; width: 1; height: 1"
-                  material="color: blue;  opacity:0.7; side: double"
-                  text="value: Allez, ok !!; align: center; wrapCount: 15"
-                  position="1 0 0"
-                  rotation="-90 0 0"
-		  class="clickable"
-		  link="on: click; href: https://marcheprime.github.io/testar/testar/index.html" id="show-hide-entity" visible="false"></a-entity>
+                  id="animated-marker" link="on: click; href: https://marcheprime.github.io/testar/testar/index.html">
+	</a-entity>
     </a-marker>
     <a-entity camera></a-entity>
 </a-scene>
