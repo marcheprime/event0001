@@ -1,5 +1,6 @@
-<script src="https://marcheprime.github.io/lib/js/aframe.min.js"></script>
-<script src="https://marcheprime.github.io/lib/js/aframe-ar.js"></script>
+<script src="https://marcheprime.github.io/lib/aframe.min.js"></script>
+<script src="https://marcheprime.github.io/lib/aframe-ar.js"></script>
+<script src="https://marcheprime.github.io/lib/aframe-extras.loaders.min.js"></script>
 
 <body style='margin : 0px; overflow: hidden;'>
   <script>
@@ -18,11 +19,9 @@
             var mark1 = document.querySelector('#box1');
           
             var mark2 = document.querySelector('#box2');
-            var mark2fond = document.querySelector('#obj2fondtri');
             var mark2txt = document.querySelector('#obj2txttri');
             
             var mark3 = document.querySelector('#box3');
-            var mark3fond = document.querySelector('#obj3fondtri');
             var mark3txt = document.querySelector('#obj3txttri');
 			
             marker.addEventListener('markerFound', function() {
@@ -35,7 +34,6 @@
                   mark1.setAttribute('visible',true);
 				  
                   mark2.setAttribute('visible',true);
-                  mark2fond.setAttribute('visible',false);
                   mark2txt.setAttribute('visible',false);
 				  
                   entity.components.sound.playSound();
@@ -47,7 +45,6 @@
 				if( markerVisible['obj2'] == true && markertrouve['obj1'] == true && markertrouve['obj2'] == false && markertrouve['obj3'] == false){
 				  
                   mark3.setAttribute('visible',true);
-                  mark3fond.setAttribute('visible',false);
                   mark3txt.setAttribute('visible',false);
 				  
                   entity.components.sound.playSound();
@@ -81,7 +78,6 @@
 				  mark1.setAttribute('visible',false);
 				  
                   mark2.setAttribute('visible',false);
-                  mark2fond.setAttribute('visible',true);
                   mark2txt.setAttribute('visible',true);
                 }
                 
@@ -109,29 +105,30 @@
     
     </script>
   
-	<a-scene embedded vr-mode-ui="enabled: false;" arjs="debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+	<a-scene embedded vr-mode-ui="enabled: false;" arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" loading-screen="enabled: false;" renderer="logarithmicDepthBuffer: true;">
+	
     <a-assets>
       <a-asset-item id="sound" src="https://marcheprime.github.io/lib/assets/victoire01.wav" response-type="arraybuffer"></a-asset-item>
       <a-asset-item id="sound2" src="https://marcheprime.github.io/lib/assets/victoire02.wav" response-type="arraybuffer"></a-asset-item>
       <a-asset-item id="sound3" src="https://marcheprime.github.io/lib/assets/mauvais2.wav" response-type="arraybuffer"></a-asset-item>
+	  <a-asset-item id="cloche" src="https://marcheprime.github.io/lib/assets/scene_cloche.glb"></a-asset-item>
+      <img id = "erreur" src = "https://marcheprime.github.io/lib/assets/erreur.png">
     </a-assets>
 
 		<a-marker id='obj1' type="pattern" url="https://marcheprime.github.io/lib/data/N.patt" registerevents>
-			<a-box id='box1' position='1 1 0' material='opacity: 0.5;' visible='false'></a-box>
+			<a-entity id="box1" rotation="0 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#cloche" visible='true'</a-entity>
 		</a-marker>
     
-		<a-marker id='obj2' type="pattern" url="https://marcheprime.github.io/lib/data/O.patt" registerevents>      
-		  <a-plane id='obj2fondtri' color="white" rotation="-90 0 0" position="0 -0.25 0" width="4" material="transparent: true; opacity: 0.90" visible='true'></a-plane>
-		  <a-text id='obj2txttri' value="Mauvaise Combinaison\n Recommence depuis\n le premier Objet !" font="https://marcheprime.github.io/lib/fonts/Exo2Bold.fnt" color="red" rotation="-90 0 0" align="center" scale="1 1 1" visible='true'></a-text>
+		<a-marker id='obj2' type="pattern" url="https://marcheprime.github.io/lib/data/O.patt" registerevents>
+		  <a-plane id="obj2txttri" src = "#erreur" height = "2" width = "12" rotation = "-90 0 0" visible='true'></a-plane>
 		  
-		  <a-box id='box2' position="1 1 0" material="color: red; transparent: true; opacity: 0.5;" visible='false'></a-box>
+		  <a-entity id="box2" rotation="0 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#cloche" visible='false'</a-entity>
 		</a-marker>
 		
-		<a-marker id='obj3' type="pattern" url="https://marcheprime.github.io/lib/data/P.patt" registerevents>      
-		  <a-plane id='obj3fondtri' color="white" rotation="-90 0 0" position="0 -0.25 0" width="4" material="transparent: true; opacity: 0.90" visible='true'></a-plane>
-		  <a-text id='obj3txttri' value="Mauvaise Combinaison\n Recommence depuis\n le premier Objet !" font="https://marcheprime.github.io/lib/fonts/Exo2Bold.fnt" color="red" rotation="-90 0 0" align="center" scale="1 1 1" visible='true'></a-text>
+		<a-marker id='obj3' type="pattern" url="https://marcheprime.github.io/lib/data/P.patt" registerevents>
+		  <a-plane id="obj3txttri" src = "#erreur" height = "2" width = "12" rotation = "-90 0 0" visible='true'></a-plane>
 		  
-		  <a-box id='box3' position="1 1 0" material="color: red; transparent: true; opacity: 0.5;" visible='false'></a-box>
+		  <a-entity id="box3" rotation="0 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#cloche" visible='false'</a-entity>
 		</a-marker>
 		
     <a-entity id='s1' sound="src: #sound; poolSize: 1;" autoplay="false"></a-entity>
