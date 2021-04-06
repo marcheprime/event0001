@@ -73,7 +73,6 @@
 	
 	<a-assets>
 		<a-asset-item id="cloche" src="https://marcheprime.github.io/lib/assets/scene_cloche.glb"></a-asset-item>
-		<a-asset-item id="poule" src="https://marcheprime.github.io/lib/assets/scene_poule.glb"></a-asset-item>
 	</a-assets>
 
 		<a-marker id='obj1' type="barcode" value="1" registerevents>
@@ -81,7 +80,7 @@
 		</a-marker>
     
     <a-marker id='obj2' type="barcode" value="2" registerevents>      
-      <a-entity id="box2" rotation="0 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#poule" visible='true'</a-entity>
+      <a-entity id="box2" rotation="0 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#cloche" visible='true'</a-entity>
     </a-marker>
 		
     <a-entity id='s1' sound="src: #sound; poolSize: 1;" autoplay="false"></a-entity>
