@@ -1,0 +1,90 @@
+<script src="https://marcheprime.github.io/lib/aframe.min.js"></script>
+<script src="https://marcheprime.github.io/lib/aframe-ar.js"></script>
+<script src="https://marcheprime.github.io/lib/aframe-extras.loaders.min.js"></script>
+
+
+<body style='margin : 0px; overflow: hidden;'>
+  <script>
+    var markerVisible = { "obj1": false, "obj2": false, "obj3": false };
+    var markertrouve = { "obj1": false, "obj2": false, "obj3": false };
+    var jeufini = false;
+
+    AFRAME.registerComponent('registerevents', {
+        init: function () 
+        {
+            let marker = this.el;
+            var entity2 = document.querySelector('#s2');
+			var entity3 = document.querySelector('#s3');
+          
+            var mark1 = document.querySelector('#box1');
+			
+            var mark3txt = document.querySelector('#obj3txttri');
+            
+            marker.addEventListener('markerFound', function() {
+                markerVisible[ marker.id ] = true;
+                //console.log( markerVisible );
+                //console.log('DEBUG markertrouve obj1:' + markertrouve['obj1'] + ' | obj2:' + markertrouve['obj2']);
+                
+				if( markerVisible['obj1'] == true && markertrouve['obj1'] == false){
+                  entity2.components.sound.playSound();
+                  markertrouve['obj1'] = true;
+                }				
+				
+				if( markerVisible['obj2'] == true && markertrouve['obj2'] == false){
+                  entity3.components.sound.playSound();
+                }
+				if( markerVisible['obj3'] == true && markertrouve['obj3'] == false){
+                  entity3.components.sound.playSound();
+                }
+				
+                if( markertrouve['obj1'] && jeufini == false){
+                  //entity2.components.sound.playSound();
+                  jeufini = true;
+                  //console.log('[JEU TERMINE !!!]');
+                  //setTimeout(openUrl, 5000); // Pause de 5 secondes
+
+                  //function openUrl(){
+                     //window .location.href = 'https://marcheprime.github.io/event0001/index5f.html';
+                  //}
+                }
+                
+            });
+
+            marker.addEventListener('markerLost', function() {
+                markerVisible[ marker.id ] = false;
+                //console.log( markerVisible );
+            });
+        }
+    });
+    
+    </script>
+  
+	<a-scene embedded vr-mode-ui="enabled: false;" arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" loading-screen="enabled: false;" renderer="logarithmicDepthBuffer: true;">
+	
+    <a-assets>
+      <a-asset-item id="sound" src="https://marcheprime.github.io/lib/assets/victoire01.wav" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="sound2" src="https://marcheprime.github.io/lib/assets/victoire02.wav" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="sound3" src="https://marcheprime.github.io/lib/assets/mauvais.wav" response-type="arraybuffer"></a-asset-item>
+	  <a-asset-item id="cloche" src="https://marcheprime.github.io/lib/assets/scene_cloche.glb"></a-asset-item>
+      <img id = "erreur" src = "https://marcheprime.github.io/lib/assets/desole.png">
+    </a-assets>
+
+	<a-marker id='obj1' type="barcode" value="4" registerevents>
+		<a-entity id="box1" rotation="0 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#cloche" visible='true'</a-entity>
+	</a-marker>
+    
+    <a-marker id='obj2' type="barcode" value="11" registerevents>
+		<a-plane id="obj2txttri" src = "#erreur" height = "1" width = "6" rotation = "-90 0 0" visible='true'></a-plane>
+    </a-marker>
+	
+	<a-marker id='obj3' type="barcode" value="1" registerevents>
+		<a-plane id="obj3txttri" src = "#erreur" height = "1" width = "6" rotation = "-90 0 0" visible='true'></a-plane>
+    </a-marker>
+	
+    <a-entity id='s2' sound="src: #sound2; poolSize: 1;" autoplay="false"></a-entity>
+	<a-entity id='s3' sound="src: #sound3; poolSize: 1;" autoplay="false"></a-entity>
+
+	<a-entity camera></a-entity>
+
+	</a-scene>  
+</body>
