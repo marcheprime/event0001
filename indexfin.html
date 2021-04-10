@@ -65,20 +65,22 @@
       <a-asset-item id="sound" src="https://marcheprime.github.io/lib/assets/victoire01.wav" response-type="arraybuffer"></a-asset-item>
       <a-asset-item id="sound2" src="https://marcheprime.github.io/lib/assets/victoire02.wav" response-type="arraybuffer"></a-asset-item>
       <a-asset-item id="sound3" src="https://marcheprime.github.io/lib/assets/mauvais2.wav" response-type="arraybuffer"></a-asset-item>
-	  <a-asset-item id="cloche" src="https://marcheprime.github.io/lib/assets/scene_cloche.glb"></a-asset-item>
+      <a-asset-item id="1746" src="https://marcheprime.github.io/lib/assets/scene_date_1746.glb"></a-asset-item>
+      <a-asset-item id="1846" src="https://marcheprime.github.io/lib/assets/scene_date_1846.glb"></a-asset-item>
+      <a-asset-item id="1946" src="https://marcheprime.github.io/lib/assets/scene_date_1946.glb"></a-asset-item>
       <img id = "erreur" src = "https://marcheprime.github.io/lib/assets/desole.png">
     </a-assets>
 
 	<a-marker id='obj1' type="barcode" value="4" registerevents>
-		<a-entity id="box1" rotation="0 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#cloche" visible='true'</a-entity>
+		<a-entity id="box1" rotation="0 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#1946" visible='true'</a-entity>
 	</a-marker>
     
     <a-marker id='obj2' type="barcode" value="11" registerevents>
-		<a-plane id="obj2txttri" src = "#erreur" height = "1" width = "6" rotation = "-90 0 0" visible='true'></a-plane>
+		<a-entity id="box2" rotation="0 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#1746" visible='true'</a-entity>
     </a-marker>
 	
 	<a-marker id='obj3' type="barcode" value="1" registerevents>
-		<a-plane id="obj3txttri" src = "#erreur" height = "1" width = "6" rotation = "-90 0 0" visible='true'></a-plane>
+		<a-entity id="box3" rotation="0 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#1846" visible='true'</a-entity>
     </a-marker>
 	
     <a-entity id='s2' sound="src: #sound2; poolSize: 1;" autoplay="false"></a-entity>
