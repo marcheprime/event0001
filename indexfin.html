@@ -1,6 +1,7 @@
 <script src="https://marcheprime.github.io/lib/aframe.min.js"></script>
 <script src="https://marcheprime.github.io/lib/aframe-ar.js"></script>
 <script src="https://marcheprime.github.io/lib/aframe-extras.loaders.min.js"></script>
+<script src="https://marcheprime.github.io/lib/js/aframe-particle-system-component.js"></script>
 
 
 <body style='margin : 0px; overflow: hidden;'>
@@ -73,7 +74,25 @@
 	<a-marker id='obj1' type="barcode" value="4" registerevents>
 		<a-entity id="box1" rotation="180 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#1946" visible='true'</a-entity>
 	</a-marker>
-    
+		
+        <a-marker type="barcode" value="4">
+        <a-entity 
+            position="0 0 0" 
+            particle-system="
+                texture: https://marcheprime.github.io/lib/assets/sparkle.png;
+                color: #FFFF00, #FFFFFF; 
+                size: 5, 0;
+                velocityValue: 0.001 0.001 0.001;
+                velocitySpread: 10 10 10; 
+                accelerationValue: 0.001 0.001 0.001;
+                accelerationSpread: 0.001 0.001 0.001;
+                rotationAngle: 0; 
+                blending: 1;
+                particleCount: 200;
+                maxAge: 5; ">
+        </a-entity>
+    </a-marker>
+		
     <a-marker id='obj2' type="barcode" value="11" registerevents>
 		<a-entity id="box2" rotation="180 90 -90" scale="1 1 1" animation-mixer="loop: repeat" gltf-model="#1746" visible='true'</a-entity>
     </a-marker>
