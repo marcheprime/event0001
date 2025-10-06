@@ -30,7 +30,7 @@
                   //entity2.components.sound.playSound();
                   jeufini = true;
                   //console.log('[JEU TERMINE !!!]');
-                  setTimeout(openUrl, 60000); // Pause de 60 secondes
+                  setTimeout(openUrl, 20000); // Pause de 60 secondes
 
                   function openUrl(){
                      window .location.href = 'https://marcheprime.github.io/event0001/indexh3.html';
@@ -51,14 +51,14 @@
 	<a-scene embedded vr-mode-ui="enabled: false;" arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" loading-screen="enabled: false;" renderer="logarithmicDepthBuffer: true;">
 	
     <a-assets>
-      <a-asset-item id="sound2" src="https://marcheprime.github.io/lib/assets/Sorciere2.wav" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="sound2" src="https://marcheprime.github.io/lib/assets/trouve.wav" response-type="arraybuffer"></a-asset-item>
     </a-assets>
 	
 	<a-assets>
-		<a-asset-item id="cloche" src="https://marcheprime.github.io/lib/assets/scene_parchemin.glb"></a-asset-item>
+		<a-asset-item id="cloche" src="https://marcheprime.github.io/lib/assets/livre.glb"></a-asset-item>
 	</a-assets>
 
-		<a-marker id='obj1' type="barcode" value="0" registerevents>
+		<a-marker id='obj1' type="barcode" value="1" registerevents>
 			<a-entity id="box1" rotation="0 -90 90" scale="0.3 0.3 0.3" animation-mixer="loop: repeat" gltf-model="#cloche" visible='true'</a-entity>
 		</a-marker>
 		
@@ -68,3 +68,4 @@
 
 	</a-scene>  
 </body>
+
